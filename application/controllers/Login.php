@@ -25,4 +25,8 @@ class Login extends CI_Controller {
 		// $this->load->view('home/home.php');
 		// $this->load->view('footer/footer.php');
 	}
+
+	public function login(){
+		$this->load->view('login/login.php');
+	}
 }
