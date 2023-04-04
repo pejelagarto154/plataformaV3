@@ -29,9 +29,10 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Ingresa tus datos</p>
 
-      <form action="" method="post">
+      <?php	echo form_open( 'login/ajax_attempt_login', ['class' => 'std-form'] );?>
+
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Rut">
+          <input type="text" class="form-control" placeholder="Correo o Nombre de Usuario" autocomplete="off" name="login_string" id="login_string">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-user"></span>
@@ -39,7 +40,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña">
+          <input type="password" class="form-control" placeholder="Contraseña" autocomplete="off" name="login_pass" id="login_pass">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -67,4 +68,36 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url()?>assets/js/jquery/adminlte.min.js"></script>
 </body>
+<script>
+	$(document).ready(function () {
+        $(document).on('submit', 'form', function (e) {
+					//console.log("ddd");
+            $.ajax({
+                type: 'post',
+                cache: false,
+                url: '<?php echo base_url() ?>login/ajax_attempt_login',
+                data: {
+                    'login_string': $('[name="login_string"]').val(),
+                    'login_pass': $('[name="login_pass"]').val(),
+                    'loginToken': $('[name="token"]').val()
+                },
+                dataType: 'json',
+                success: function (response) {
+                    $('[name="loginToken"]').val(response.token);
+                    console.log(response);
+                    if (response.status == 1) {
+                        window.location.href = '<?php echo base_url() ?>login/res';
+                    } else if (response.status == 0 && response.on_hold) {
+                        $('form').hide();
+                        $('#on-hold-message').show();
+                        alert('Intentos de inicio de sesión excesivos.');
+                    } else if (response.status == 0 && response.count) {
+                        alert('Login fallido', 'Login fallido ' + response.count + ' de ' + $('#max_allowed_attempts').val(), 'error');
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
 </html>

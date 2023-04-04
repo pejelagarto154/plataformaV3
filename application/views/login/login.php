@@ -16,11 +16,11 @@
         <h1 class="h3 mb-3 fw-normal">Bienvenido</h1>
 
         <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" placeholder="176792094">
-        <label for="floatingInput">Rut</label>
+        <input type="text" class="form-control" id="floatingInput" placeholder="">
+        <label for="floatingInput">Correo o Nombre de usuario</label>
         </div>
         <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="">
         <label for="floatingPassword">Contraseña</label>
         </div>
 
